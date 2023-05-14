@@ -1,11 +1,34 @@
 import './App.css';
-import { useState } from 'react'; //Hook
+import { useReducer, useState } from 'react'; //Hook
 import { students } from './data';
 import { v4 as uuidv4 } from 'uuid';
 import styled, { css, keyframes } from 'styled-components';
 import AntDesignTable from './Components/AntDesignTable';
 // import Header from './Components/Header'
 // import Button from './Components/Button'
+
+
+function reducer(state,action){
+  switch(action){
+    case 'increment':
+    return{
+ count: state.count + 1
+    }
+  case 'decrement':
+    return{
+    count:  state.count-1
+    }
+    case 'reset':
+      return{
+        count:0
+      }
+    default:
+      return {
+        count: state.count
+      }
+
+      }
+}
 function App() {
 //   function HelloComponent(compName){
 //     return compName;
@@ -96,7 +119,24 @@ function App() {
 //   font-size: 1.2rem;
 // `;
 
-  return (
+function handleDecrease(){
+  if(state.count>0){
+    dispatch('decrement')
+
+  }
+}
+function handleIncrease(){
+  dispatch('increment')
+  }
+
+
+  function handleReset(){
+    dispatch('reset')
+  }
+const [state,dispatch]=useReducer(reducer,{count:0})
+return (
+
+
 
     <>
     {/* <Rotate>&lt; 💅🏾 &gt;</Rotate> */}
@@ -146,7 +186,12 @@ function App() {
     </Title>
   </Wrapper> */}
 
-<AntDesignTable/>
+{/* <AntDesignTable/> */}
+<button onClick={handleIncrease}>Increase</button>
+<span>{state.count}</span>
+<button onClick={handleDecrease} >Decrease</button>
+<button onClick={handleReset}> Reset</button>
+
 
   </>
   );
